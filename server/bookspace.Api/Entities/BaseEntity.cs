@@ -15,6 +15,8 @@ namespace bookspace.Api.Entities
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         [DefaultValue(false)]
+#pragma warning disable IDE1006 // Naming Styles
         public bool isDeleted { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
     }
 }
