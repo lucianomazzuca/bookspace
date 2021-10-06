@@ -21,7 +21,7 @@ namespace bookspace.Api.Data
                .HasData(
                    new Status { Id = 1, Name = "Reading" },
                    new Status { Id = 2, Name = "Plan to read"},
-                   new Status { Id = 2, Name = "Completed" }
+                   new Status { Id = 3, Name = "Completed" }
             );
         }
     }
