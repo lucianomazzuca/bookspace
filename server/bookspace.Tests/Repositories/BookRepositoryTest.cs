@@ -53,7 +53,7 @@ namespace bookspace.Tests.Repositories
             using (var context = new BookspaceContext(ContextOptions))
             {
                 // Arrange
-                var repository = new BaseRepository(context);
+                var repository = new BookRepository(context);
 
                 // Act
                 var book = await repository.GetById(1);
@@ -69,7 +69,7 @@ namespace bookspace.Tests.Repositories
             using (var context = new BookspaceContext(ContextOptions))
             {
                 // Arrange
-                var repository = new BaseRepository(context);
+                var repository = new BookRepository(context);
                 var genre1 = context.Genres.First();
                 var authorId = 1;
                 var book = new Book() { Id = 2, Name = "Lord of the Rings", AuthorId = authorId, Genres = new List<Genre>() };
@@ -92,7 +92,7 @@ namespace bookspace.Tests.Repositories
             using (var context = new BookspaceContext(ContextOptions))
             {
                 // Arrange
-                var repository = new BaseRepository(context);
+                var repository = new BookRepository(context);
                 var genre1 = context.Genres.First();
                 var authorId = 1;
                 var book = new Book() { Id = 2, Name = "Lord of the Rings", AuthorId = authorId, Genres = new List<Genre>() };

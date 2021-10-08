@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace bookspace.Api.Repositories
 {
-    public class BaseRepository : BaseRepository<Book>
+    public class BookRepository : BaseRepository<Book>
     {
-        public BaseRepository(BookspaceContext context) : base(context)
+        public BookRepository(BookspaceContext context) : base(context)
         {
         }
 

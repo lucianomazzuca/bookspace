@@ -24,6 +24,11 @@ namespace bookspace.Api.Data
                    new Status { Id = 3, Name = "Completed" }
             );
 
+            modelBuilder.Entity<Book>()
+                .HasData(
+                    new Book { Id = 1, Name = "Mistborn" }
+                );
+
             //modelBuilder.Entity<Book>()
             //    .HasOne(x => x.Genre)
             //    .WithMany(x => x.Books)

@@ -1,4 +1,6 @@
 using bookspace.Api.Data;
+using bookspace.Api.Repositories;
+using bookspace.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +37,14 @@ namespace bookspace.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "bookspace.Api", Version = "v1" });
             });
+
+            // Repositories
+            services.AddScoped<UserRepository>();
+            services.AddScoped<BookRepository>();
+
+            // Services
+            services.AddScoped<BookService>();
+            services.AddScoped<UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
