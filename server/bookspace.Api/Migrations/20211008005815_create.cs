@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace bookspace.Api.Migrations
 {
-    public partial class initial : Migration
+    public partial class create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,22 +39,6 @@ namespace bookspace.Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Genres",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    isDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Genres", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,8 +83,7 @@ namespace bookspace.Api.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     isDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -113,13 +96,7 @@ namespace bookspace.Api.Migrations
                         column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Books_Genres_GenreId",
-                        column: x => x.GenreId,
-                        principalTable: "Genres",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -129,9 +106,10 @@ namespace bookspace.Api.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     isDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -144,7 +122,30 @@ namespace bookspace.Api.Migrations
                         column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Genres",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Genres", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Genres_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,12 +179,17 @@ namespace bookspace.Api.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "AuthorId", "CreatedAt", "Description", "Image", "Name", "Rating", "UpdatedAt", "isDeleted" },
+                values: new object[] { 1, null, new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(8261), null, null, "Mistborn", 0, new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(8266), false });
+
+            migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedAt", "Name", "UpdatedAt", "isDeleted" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 10, 5, 22, 9, 13, 762, DateTimeKind.Local).AddTicks(6098), "Administrator", new DateTime(2021, 10, 5, 22, 9, 13, 763, DateTimeKind.Local).AddTicks(7011), false },
-                    { 2, new DateTime(2021, 10, 5, 22, 9, 13, 763, DateTimeKind.Local).AddTicks(8038), "Standard", new DateTime(2021, 10, 5, 22, 9, 13, 763, DateTimeKind.Local).AddTicks(8044), false }
+                    { 1, new DateTime(2021, 10, 7, 21, 58, 15, 214, DateTimeKind.Local).AddTicks(2761), "Administrator", new DateTime(2021, 10, 7, 21, 58, 15, 215, DateTimeKind.Local).AddTicks(4803), false },
+                    { 2, new DateTime(2021, 10, 7, 21, 58, 15, 215, DateTimeKind.Local).AddTicks(5871), "Standard", new DateTime(2021, 10, 7, 21, 58, 15, 215, DateTimeKind.Local).AddTicks(5877), false }
                 });
 
             migrationBuilder.InsertData(
@@ -191,9 +197,9 @@ namespace bookspace.Api.Migrations
                 columns: new[] { "Id", "CreatedAt", "Name", "UpdatedAt", "isDeleted" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 10, 5, 22, 9, 13, 764, DateTimeKind.Local).AddTicks(9909), "Reading", new DateTime(2021, 10, 5, 22, 9, 13, 764, DateTimeKind.Local).AddTicks(9918), false },
-                    { 2, new DateTime(2021, 10, 5, 22, 9, 13, 765, DateTimeKind.Local).AddTicks(372), "Plan to read", new DateTime(2021, 10, 5, 22, 9, 13, 765, DateTimeKind.Local).AddTicks(376), false },
-                    { 3, new DateTime(2021, 10, 5, 22, 9, 13, 765, DateTimeKind.Local).AddTicks(378), "Completed", new DateTime(2021, 10, 5, 22, 9, 13, 765, DateTimeKind.Local).AddTicks(380), false }
+                    { 1, new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7170), "Reading", new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7178), false },
+                    { 2, new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7610), "Plan to read", new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7615), false },
+                    { 3, new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7618), "Completed", new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7619), false }
                 });
 
             migrationBuilder.CreateIndex(
@@ -202,9 +208,9 @@ namespace bookspace.Api.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_GenreId",
-                table: "Books",
-                column: "GenreId");
+                name: "IX_Genres_BookId",
+                table: "Genres",
+                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Journals_BookId",
@@ -228,6 +234,9 @@ namespace bookspace.Api.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "Genres");
+
+            migrationBuilder.DropTable(
                 name: "Journals");
 
             migrationBuilder.DropTable(
@@ -244,9 +253,6 @@ namespace bookspace.Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Authors");
-
-            migrationBuilder.DropTable(
-                name: "Genres");
         }
     }
 }

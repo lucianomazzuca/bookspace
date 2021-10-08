@@ -10,8 +10,8 @@ using bookspace.Api.Data;
 namespace bookspace.Api.Migrations
 {
     [DbContext(typeof(BookspaceContext))]
-    [Migration("20211006010914_initial")]
-    partial class initial
+    [Migration("20211008005815_create")]
+    partial class create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,7 +53,7 @@ namespace bookspace.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -61,9 +61,6 @@ namespace bookspace.Api.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -85,9 +82,18 @@ namespace bookspace.Api.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("GenreId");
-
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(8261),
+                            Name = "Mistborn",
+                            Rating = 0,
+                            UpdatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(8266),
+                            isDeleted = false
+                        });
                 });
 
             modelBuilder.Entity("bookspace.Api.Entities.Comment", b =>
@@ -128,6 +134,9 @@ namespace bookspace.Api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BookId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -142,6 +151,8 @@ namespace bookspace.Api.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BookId");
 
                     b.ToTable("Genres");
                 });
@@ -208,17 +219,17 @@ namespace bookspace.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 10, 5, 22, 9, 13, 762, DateTimeKind.Local).AddTicks(6098),
+                            CreatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 214, DateTimeKind.Local).AddTicks(2761),
                             Name = "Administrator",
-                            UpdatedAt = new DateTime(2021, 10, 5, 22, 9, 13, 763, DateTimeKind.Local).AddTicks(7011),
+                            UpdatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 215, DateTimeKind.Local).AddTicks(4803),
                             isDeleted = false
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 10, 5, 22, 9, 13, 763, DateTimeKind.Local).AddTicks(8038),
+                            CreatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 215, DateTimeKind.Local).AddTicks(5871),
                             Name = "Standard",
-                            UpdatedAt = new DateTime(2021, 10, 5, 22, 9, 13, 763, DateTimeKind.Local).AddTicks(8044),
+                            UpdatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 215, DateTimeKind.Local).AddTicks(5877),
                             isDeleted = false
                         });
                 });
@@ -251,25 +262,25 @@ namespace bookspace.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2021, 10, 5, 22, 9, 13, 764, DateTimeKind.Local).AddTicks(9909),
+                            CreatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7170),
                             Name = "Reading",
-                            UpdatedAt = new DateTime(2021, 10, 5, 22, 9, 13, 764, DateTimeKind.Local).AddTicks(9918),
+                            UpdatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7178),
                             isDeleted = false
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2021, 10, 5, 22, 9, 13, 765, DateTimeKind.Local).AddTicks(372),
+                            CreatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7610),
                             Name = "Plan to read",
-                            UpdatedAt = new DateTime(2021, 10, 5, 22, 9, 13, 765, DateTimeKind.Local).AddTicks(376),
+                            UpdatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7615),
                             isDeleted = false
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2021, 10, 5, 22, 9, 13, 765, DateTimeKind.Local).AddTicks(378),
+                            CreatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7618),
                             Name = "Completed",
-                            UpdatedAt = new DateTime(2021, 10, 5, 22, 9, 13, 765, DateTimeKind.Local).AddTicks(380),
+                            UpdatedAt = new DateTime(2021, 10, 7, 21, 58, 15, 216, DateTimeKind.Local).AddTicks(7619),
                             isDeleted = false
                         });
                 });
@@ -284,6 +295,10 @@ namespace bookspace.Api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
@@ -292,9 +307,10 @@ namespace bookspace.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -314,19 +330,16 @@ namespace bookspace.Api.Migrations
                 {
                     b.HasOne("bookspace.Api.Entities.Author", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("bookspace.Api.Entities.Genre", "Genre")
-                        .WithMany()
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
+                });
 
-                    b.Navigation("Genre");
+            modelBuilder.Entity("bookspace.Api.Entities.Genre", b =>
+                {
+                    b.HasOne("bookspace.Api.Entities.Book", null)
+                        .WithMany("Genres")
+                        .HasForeignKey("BookId");
                 });
 
             modelBuilder.Entity("bookspace.Api.Entities.Journal", b =>
@@ -352,11 +365,14 @@ namespace bookspace.Api.Migrations
                 {
                     b.HasOne("bookspace.Api.Entities.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("bookspace.Api.Entities.Book", b =>
+                {
+                    b.Navigation("Genres");
                 });
 #pragma warning restore 612, 618
         }
