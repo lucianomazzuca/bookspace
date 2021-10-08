@@ -13,10 +13,9 @@ namespace bookspace.Api.Entities
         public string Description { get; set; }
         public int Rating { get; set; }
         public string Image { get; set; }
-        public int AuthorId { get; set; }
-        public int GenreId { get; set; }
+        public int? AuthorId { get; set; }
 
         public Author Author { get; set; }
-        public Genre Genre { get; set; }
+        public ICollection<Genre> Genres { get; set; }
     }
 }

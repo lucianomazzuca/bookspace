@@ -13,7 +13,7 @@ namespace bookspace.Api.Data
         {
             modelBuilder.Entity<Role>()
                .HasData(
-                   new Role { Id = 1, Name = "Administrator"},
+                   new Role { Id = 1, Name = "Administrator",},
                    new Role { Id = 2, Name = "Standard"}
             );
 
@@ -23,6 +23,12 @@ namespace bookspace.Api.Data
                    new Status { Id = 2, Name = "Plan to read"},
                    new Status { Id = 3, Name = "Completed" }
             );
+
+            //modelBuilder.Entity<Book>()
+            //    .HasOne(x => x.Genre)
+            //    .WithMany(x => x.Books)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }
