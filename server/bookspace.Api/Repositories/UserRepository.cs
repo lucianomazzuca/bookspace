@@ -1,5 +1,6 @@
 ﻿using bookspace.Api.Data;
 using bookspace.Api.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace bookspace.Api.Repositories
 
         public async Task<User> GetByEmail(string email)
         {
-            
+            var user = await _model.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
+
+            return user;
         }
     }
 }
