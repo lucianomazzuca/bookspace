@@ -19,7 +19,7 @@ namespace bookspace.Api.Repositories
             _model = context.Set<TEntity>();
         }
 
-        public async Task<TEntity> GetById(int id)
+        public virtual async Task<TEntity> GetById(int id)
         {
             var item = await _model
                 .Where(x => !x.isDeleted)
@@ -29,18 +29,18 @@ namespace bookspace.Api.Repositories
             return item;
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
             return await _model.Where(x => !x.isDeleted).ToListAsync();
         }
 
-        public async Task Insert(TEntity entity)
+        public virtual async Task Insert(TEntity entity)
         {
             await _model.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(TEntity entity)
+        public virtual async Task Update(TEntity entity)
         {
             entity.UpdatedAt = DateTime.Now;
             _context.Entry(entity).State = EntityState.Modified;
