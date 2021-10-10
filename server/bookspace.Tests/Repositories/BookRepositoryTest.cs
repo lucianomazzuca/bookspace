@@ -1,6 +1,7 @@
 ﻿using bookspace.Api.Data;
 using bookspace.Api.Entities;
 using bookspace.Api.Repositories;
+using bookspace.Api.UOW;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -53,10 +54,10 @@ namespace bookspace.Tests.Repositories
             using (var context = new BookspaceContext(ContextOptions))
             {
                 // Arrange
-                var repository = new BookRepository(context);
+                var unitOfWork = new UnitOfWork(context);
 
                 // Act
-                var book = await repository.GetById(1);
+                var book = await unitOfWork.BookRepository.GetById(1);
 
                 // Assert
                 Assert.Equal(1, book.Id);
@@ -69,15 +70,16 @@ namespace bookspace.Tests.Repositories
             using (var context = new BookspaceContext(ContextOptions))
             {
                 // Arrange
-                var repository = new BookRepository(context);
+                var unitOfWork = new UnitOfWork(context);
                 var genre1 = context.Genres.First();
                 var authorId = 1;
                 var book = new Book() { Id = 2, Name = "Lord of the Rings", AuthorId = authorId, Genres = new List<Genre>() };
                 book.Genres.Add(genre1);
 
                 // Act
-                await repository.Insert(book);
-                var bookInDb = await repository.GetById(book.Id);
+                await unitOfWork.BookRepository.Insert(book);
+                await unitOfWork.SaveChangesAsync();
+                var bookInDb = await unitOfWork.BookRepository.GetById(book.Id);
 
                 // Assert
                 Assert.Equal(book.Id, bookInDb.Id);
@@ -92,12 +94,14 @@ namespace bookspace.Tests.Repositories
             using (var context = new BookspaceContext(ContextOptions))
             {
                 // Arrange
-                var repository = new BookRepository(context);
+                var unitOfWork = new UnitOfWork(context);
                 var genre1 = context.Genres.First();
                 var authorId = 1;
                 var book = new Book() { Id = 2, Name = "Lord of the Rings", AuthorId = authorId, Genres = new List<Genre>() };
                 book.Genres.Add(genre1);
-                await repository.Insert(book);
+                await unitOfWork.BookRepository.Insert(book);
+                await unitOfWork.SaveChangesAsync();
+
 
                 // update book attributes
                 var genre2 = context.Genres.Find(2);
@@ -107,8 +111,9 @@ namespace bookspace.Tests.Repositories
                 book.Name = "Updated";
 
                 // Act
-                await repository.Update(book);
-                var bookInDb = await repository.GetById(book.Id);
+                unitOfWork.BookRepository.Update(book);
+                await unitOfWork.SaveChangesAsync();
+                var bookInDb = await unitOfWork.BookRepository.GetById(book.Id);
 
                 // Assert
                 Assert.Equal(book.Name, bookInDb.Name);

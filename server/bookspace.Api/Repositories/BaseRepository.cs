@@ -37,26 +37,22 @@ namespace bookspace.Api.Repositories
         public virtual async Task Insert(TEntity entity)
         {
             await _model.AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
 
-        public virtual async Task Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             entity.UpdatedAt = DateTime.Now;
             _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
         }
 
-        public async Task SoftDelete(TEntity entity)
+        public virtual void SoftDelete(TEntity entity)
         {
             entity.isDeleted = true;
-            await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(TEntity entity)
+        public void Delete(TEntity entity)
         {
             _model.Remove(entity);
-            await _context.SaveChangesAsync();
         }
     }
 }
