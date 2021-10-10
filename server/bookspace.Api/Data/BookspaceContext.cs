@@ -22,11 +22,11 @@ namespace bookspace.Api.Data
         public DbSet<Status> Status { get; set; }
         public DbSet<User> Users { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
 
-            modelBuilder.Seed();
-            base.OnModelCreating(modelBuilder);
-        }
+        //    modelBuilder.Seed();
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }

@@ -14,6 +14,17 @@ namespace bookspace.Api.Repositories
         {
         }
 
+        public override async Task<User> GetById(int id)
+        {
+            var item = await _model
+                .Where(x => !x.isDeleted)
+                .AsNoTracking()
+                .Include(x => x.Role)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return item;
+        }
+
         public async Task<User> GetByEmail(string email)
         {
             var user = await _model.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
