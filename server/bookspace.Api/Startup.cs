@@ -1,4 +1,5 @@
 using bookspace.Api.Data;
+using bookspace.Api.Profiles;
 using bookspace.Api.Repositories;
 using bookspace.Api.Services;
 using bookspace.Api.UOW;
@@ -39,8 +40,10 @@ namespace bookspace.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "bookspace.Api", Version = "v1" });
             });
 
-            // Repositories
             services.AddScoped<UnitOfWork>();
+
+            // Profiles
+            services.AddAutoMapper(typeof(UserProfile));
 
             // Services
             services.AddScoped<BookService>();

@@ -1,5 +1,6 @@
 ﻿using bookspace.Api.Entities;
 using bookspace.Api.Repositories;
+using bookspace.Api.UOW;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,16 @@ namespace bookspace.Api.Services
 {
     public class BookService
     {
-        private readonly BookRepository _bookRepository;
+        private readonly UnitOfWork _unitOfWork;
 
-        public BookService(BookRepository bookRepository)
+        public BookService(UnitOfWork unitOfWork)
         {
-            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IEnumerable<Book>> GetAll()
         {
-            var items = await _bookRepository.GetAll();
+            var items = await _unitOfWork.BookRepository.GetAll();
             return items;
         }
     }
