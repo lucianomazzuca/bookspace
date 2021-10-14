@@ -12,7 +12,7 @@ namespace bookspace.Api.Profiles
     {
         public UserProfile()
         {
-            CreateMap<User, UserRegisterDTO>();
+            CreateMap<UserRegisterDTO, User>();
         }
     }
 }

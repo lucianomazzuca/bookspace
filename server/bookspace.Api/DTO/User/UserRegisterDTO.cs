@@ -11,8 +11,10 @@ namespace bookspace.Api.DTO.User
     {
         [Required]
         public string Name { get; set; }
+        [EmailAddress]
         [Required]
         public string Email { get; set; }
+        [StringLength(30, MinimumLength = 8)]
         [Required]
         public string Password { get; set; }
         public IFormFile Image { get; set; }

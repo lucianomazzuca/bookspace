@@ -9,7 +9,7 @@ namespace bookspace.Api.Services
 {
     public static class CryptographyService
     {
-        static string GetSha256(string str)
+        public static string GetSha256(string str)
         {
             SHA256 sha256 = SHA256.Create();
             ASCIIEncoding encoding = new ASCIIEncoding();
