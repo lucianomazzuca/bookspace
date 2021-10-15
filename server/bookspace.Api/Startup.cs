@@ -53,6 +53,7 @@ namespace bookspace.Api
             services.AddScoped<BookService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IGenreService, GenreService>();
 
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("JwtConfig").GetSection("secret").Value);
             services.AddAuthentication(x =>

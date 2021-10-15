@@ -26,5 +26,9 @@ namespace bookspace.Api.Controllers
             var books = await _bookService.GetAll();
             return Ok(books);
         }
+
+        //[Authorize(Roles = "Administrator")]
+        //[HttpPost]
+        //public async Task<ActionResult> Insert()
     }
 }

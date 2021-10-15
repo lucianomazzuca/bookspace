@@ -1,4 +1,5 @@
 ﻿using bookspace.Api.Entities;
+using bookspace.Api.Exceptions;
 using bookspace.Api.UOW;
 using System;
 using System.Collections.Generic;
@@ -40,8 +41,14 @@ namespace bookspace.Api.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task Delete(Genre genre)
+        public async Task Delete(int id)
         {
+            var genre = await _unitOfWork.GenreRepository.GetById(id);
+            if (genre == null)
+            {
+                throw new RecordNotFoundException();
+            }
+
             _unitOfWork.GenreRepository.SoftDelete(genre);
             await _unitOfWork.SaveChangesAsync();
         }

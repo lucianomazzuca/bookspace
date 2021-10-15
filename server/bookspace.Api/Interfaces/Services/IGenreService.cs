@@ -6,7 +6,7 @@ namespace bookspace.Api.Services
 {
     public interface IGenreService
     {
-        Task Delete(Genre genre);
+        Task Delete(int id);
         Task<IEnumerable<Genre>> GetAll();
         Task<Genre> GetById(int id);
         Task Insert(Genre genre);
