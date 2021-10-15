@@ -17,6 +17,12 @@ namespace bookspace.Api.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<User> GetById(int id)
+        {
+            var user = await _unitOfWork.UserRepository.GetById(id);
+            return user;
+        }
+
         public async Task<IEnumerable<User>> GetAll()
         {
             var items = await _unitOfWork.UserRepository.GetAll();
@@ -33,6 +39,12 @@ namespace bookspace.Api.Services
 
             await _unitOfWork.UserRepository.Insert(user);
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            var user = await _unitOfWork.UserRepository.GetByEmail(email);
+            return user;
         }
     }
 }

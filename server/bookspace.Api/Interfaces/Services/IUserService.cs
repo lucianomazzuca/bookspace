@@ -8,5 +8,7 @@ namespace bookspace.Api.Services
     {
         Task<IEnumerable<User>> GetAll();
         Task Insert(User user);
+        Task<User> GetById(int id);
+        Task<User> GetByEmail(string email);
     }
 }

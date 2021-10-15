@@ -13,6 +13,7 @@ namespace bookspace.Api.Profiles
         public UserProfile()
         {
             CreateMap<UserRegisterDTO, User>();
+            CreateMap<UserLoginDTO, User>();
         }
     }
 }

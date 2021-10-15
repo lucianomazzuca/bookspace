@@ -1,4 +1,5 @@
 ﻿using bookspace.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace bookspace.Api.Controllers
             _bookService = bookService;
         }
 
+        //[Authorize(Roles = "Administrator")]
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {

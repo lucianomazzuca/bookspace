@@ -27,7 +27,7 @@ namespace bookspace.Api.Repositories
 
         public async Task<User> GetByEmail(string email)
         {
-            var user = await _model.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
+            var user = await _model.AsNoTracking().Include(x => x.Role).FirstOrDefaultAsync(u => u.Email == email);
 
             return user;
         }

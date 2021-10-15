@@ -17,11 +17,13 @@ namespace bookspace.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IAuthService _authService;
         private readonly IMapper _mapper;
 
-        public AuthController(IUserService userService, IMapper mapper)
+        public AuthController(IUserService userService, IMapper mapper, IAuthService authService)
         {
             _userService = userService;
+            _authService = authService;
             _mapper = mapper;
         }
 
@@ -40,6 +42,25 @@ namespace bookspace.Api.Controllers
             {
                 return StatusCode(409, new { e.Message });
             }
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(UserLoginDTO userDto)
+        {
+            var user = await _userService.GetByEmail(userDto.Email);
+            if (user == null)
+            {
+                return StatusCode(401, new { message = "Email is not registered" });
+            }
+
+            var isPasswordValid = _authService.VerifyPassword(user.Password, userDto.Password);
+            if (!isPasswordValid)
+            {
+                return StatusCode(401, new { message = "Invalid credentials" });
+            }
+
+            var token = _authService.generateJwtToken(user);
+            return Ok(new { token });
         }
     }
 }
