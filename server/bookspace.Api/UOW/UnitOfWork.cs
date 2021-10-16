@@ -13,6 +13,7 @@ namespace bookspace.Api.UOW
         private BookRepository _bookRepository;
         private UserRepository _userRepository;
         private GenreRepository _genreRepository;
+        private AuthorRepository _authorRepository;
 
         public UnitOfWork(BookspaceContext context)
         {
@@ -52,6 +53,18 @@ namespace bookspace.Api.UOW
                     this._genreRepository = new GenreRepository(context);
                 }
                 return _genreRepository;
+            }
+        }
+
+        public AuthorRepository AuthorRepository
+        {
+            get
+            {
+                if (this._authorRepository == null)
+                {
+                    this._authorRepository = new AuthorRepository(context);
+                }
+                return _authorRepository;
             }
         }
 
