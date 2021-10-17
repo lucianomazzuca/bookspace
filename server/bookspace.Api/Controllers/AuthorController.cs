@@ -43,7 +43,9 @@ namespace bookspace.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(author);
+            var authorDto = _mapper.Map<AuthorReadDto>(author);
+
+            return Ok(authorDto);
         }
 
         [Authorize(Roles = "Administrator")]
@@ -67,6 +69,7 @@ namespace bookspace.Api.Controllers
             }
 
             author = _mapper.Map<Author>(authorDto);
+            author.Id = id;
             await _authorService.Update(author);
             return Ok();
         }

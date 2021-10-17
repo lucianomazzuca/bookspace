@@ -47,7 +47,12 @@ namespace bookspace.Api
             services.AddScoped<UnitOfWork>();
 
             // Profiles
-            services.AddAutoMapper(typeof(UserProfile));
+            services.AddAutoMapper(
+                typeof(UserProfile), 
+                typeof(BookProfile), 
+                typeof(GenreProfile), 
+                typeof(AuthorProfile)
+            );
 
             // Services
             services.AddScoped<BookService>();
@@ -55,6 +60,7 @@ namespace bookspace.Api
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IGenreService, GenreService>();
             services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IBookService, BookService>();
 
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("JwtConfig").GetSection("secret").Value);
             services.AddAuthentication(x =>

@@ -16,6 +16,6 @@ namespace bookspace.Api.Entities
         public int? AuthorId { get; set; }
 
         public Author Author { get; set; }
-        public ICollection<Genre> Genres { get; set; }
+        public ICollection<Genre> Genres { get; set; } = new List<Genre>();
     }
 }

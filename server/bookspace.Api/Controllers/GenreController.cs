@@ -43,7 +43,8 @@ namespace bookspace.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(genre);
+            var genreDto = _mapper.Map<GenreReadDto>(genre);
+            return Ok(genreDto);
         }
 
         [Authorize(Roles = "Administrator")]
@@ -67,6 +68,7 @@ namespace bookspace.Api.Controllers
             }
 
             genre = _mapper.Map<Genre>(genreDto);
+            genre.Id = id;
             await _genreService.Update(genre);
             return Ok();
         }

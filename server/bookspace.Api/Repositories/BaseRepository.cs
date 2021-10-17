@@ -29,9 +29,18 @@ namespace bookspace.Api.Repositories
             return item;
         }
 
+        public virtual async Task<TEntity> GetTracked(int id)
+        {
+            var item = await _model
+                .Where(x => !x.isDeleted)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return item;
+        }
+
         public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
-            return await _model.Where(x => !x.isDeleted).ToListAsync();
+            return await _model.Where(x => !x.isDeleted).AsNoTracking().ToListAsync();
         }
 
         public virtual async Task Insert(TEntity entity)

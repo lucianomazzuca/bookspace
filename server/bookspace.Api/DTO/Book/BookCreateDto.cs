@@ -13,10 +13,10 @@ namespace bookspace.Api.DTO.Book
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
+        [Range(0, 5)]
         public int Rating { get; set; }
         public IFormFile Image { get; set; }
         public int? AuthorId { get; set; }
-
-        public ICollection<Genre> Genres { get; set; }
+        public List<int> GenresIds { get; set; } = new List<int>();
     }
 }

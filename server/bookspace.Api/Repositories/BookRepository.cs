@@ -25,5 +25,17 @@ namespace bookspace.Api.Repositories
 
             return item;
         }
+
+        public override async Task<IEnumerable<Book>> GetAll()
+        {
+            var items = await _model
+                .Where(x => !x.isDeleted)
+                .AsNoTracking()
+                .Include(x => x.Genres)
+                .Include(x => x.Author)
+                .ToListAsync();
+
+            return items;
+        }
     }
 }
