@@ -18,10 +18,11 @@ namespace bookspace.Api.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Book>> GetAll()
+        public async Task<Pagination<Book>> GetAll(PaginationFilter paginationFilter)
         {
-            var items = await _unitOfWork.BookRepository.GetAll();
-            return items;
+            var items = await _unitOfWork.BookRepository.GetAll(paginationFilter);
+            var pagination = new Pagination<Book>(items, items.Count, paginationFilter.PageNumber, paginationFilter.PageSize);
+            return pagination;
         }
 
         public async Task Insert(Book book, List<int> genresIds)

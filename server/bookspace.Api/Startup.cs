@@ -51,7 +51,8 @@ namespace bookspace.Api
                 typeof(UserProfile), 
                 typeof(BookProfile), 
                 typeof(GenreProfile), 
-                typeof(AuthorProfile)
+                typeof(AuthorProfile),
+                typeof(PaginationProfile)
             );
 
             // Services

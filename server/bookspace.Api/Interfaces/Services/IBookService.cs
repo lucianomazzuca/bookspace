@@ -6,7 +6,7 @@ namespace bookspace.Api.Services
 {
     public interface IBookService
     {
-        Task<IEnumerable<Book>> GetAll();
+        Task<Pagination<Book>> GetAll(PaginationFilter paginationFilter);
         Task Insert(Book book, List<int> genresIds);
         Task SoftDelete(int id);
         Task Update(Book book, List<int> genresIds);

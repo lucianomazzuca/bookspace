@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using bookspace.Api.DTO;
 using bookspace.Api.DTO.Book;
 using bookspace.Api.Entities;
 using bookspace.Api.Exceptions;
@@ -26,11 +27,12 @@ namespace bookspace.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll()
+        public async Task<ActionResult> GetAll([FromQuery] PaginationFilterDto paginationFilterDto)
         {
-            var books = await _bookService.GetAll();
-            var booksDto = _mapper.Map<IEnumerable<BookReadDto>>(books);
-            return Ok(booksDto);
+            var paginationFilter = _mapper.Map<PaginationFilter>(paginationFilterDto);
+            var pagination = await _bookService.GetAll(paginationFilter);
+            var paginatedResponse = _mapper.Map<PaginatedResponseDto>(pagination);
+            return Ok(paginatedResponse);
         }
 
         [Authorize(Roles = "Administrator")]

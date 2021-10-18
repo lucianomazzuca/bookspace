@@ -26,10 +26,12 @@ namespace bookspace.Api.Repositories
             return item;
         }
 
-        public override async Task<IEnumerable<Book>> GetAll()
+        public async Task<List<Book>> GetAll(PaginationFilter paginationFilter)
         {
             var items = await _model
                 .Where(x => !x.isDeleted)
+                .Skip((paginationFilter.PageNumber - 1) * paginationFilter.PageSize) 
+                .Take(paginationFilter.PageSize)
                 .AsNoTracking()
                 .Include(x => x.Genres)
                 .Include(x => x.Author)
